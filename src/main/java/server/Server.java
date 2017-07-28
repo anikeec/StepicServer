@@ -27,7 +27,8 @@ public class Server {
             handlerPool = new ConnectionHandlerPool(backlog);
             while (true) {
                     Socket socket = serverSocket.accept();
-                    handlerPool.addConnection(socket);
+//                    handlerPool.addConnection(socket);
+                    new Thread(new ConnectionThread(socket)).start();
             }
     }
 }

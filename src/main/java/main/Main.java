@@ -16,7 +16,7 @@ import server.Server;
  */
 public class Main {
     private static int CONNECTIONS_MAX = 5;
-    private static int CONNECTION_PORT = 8080;    
+    private static int CONNECTION_PORT = 5050;    
     static Server server;
 
     public static void main(String[] args) {

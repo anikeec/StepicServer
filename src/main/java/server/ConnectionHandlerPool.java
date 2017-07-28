@@ -12,18 +12,30 @@ import java.net.Socket;
  * @author apu
  */
 public class ConnectionHandlerPool {
-    private final Socket[] socketStore = new Socket[1];
+    private int SOCKET_STORE_SIZE = 10;
+    private Socket[] socketStore;
+    private Integer currentSocket = 0;
 	
     public ConnectionHandlerPool(int backlog) {
+        socketStore = new Socket[backlog];
+        for(int i=0;i<socketStore.length;i++) {
+            socketStore[i] = null;
+        }
             for (int i = 0; i < backlog; i++) {
-                    new Thread(new ConnectionHandler(socketStore)).start();
+                    new Thread(new ConnectionHandler(socketStore, currentSocket)).start();
             }
     }
 
     public void addConnection(Socket socket) {
             synchronized (socketStore) {
-                    socketStore[0] = socket;
-                    socketStore.notify();
+                for(int i=0;i<socketStore.length;i++) {
+                    if(socketStore[i] == null) {
+                        currentSocket = i;
+                        socketStore[i] = socket;
+                        socketStore.notify();
+                        break;
+                    }
+                }                        
             }
     }
 }
