@@ -15,14 +15,13 @@ import server.Server;
  * @author apu
  */
 public class Main {
-    private static int CONNECTIONS_MAX = 5;
+    private static int CONNECTIONS_MAX = 10;
     private static int CONNECTION_PORT = 5050;    
     static Server server;
 
     public static void main(String[] args) {
         try {
-            server = new Server(CONNECTION_PORT, CONNECTIONS_MAX);
-            System.out.println("Server started");
+            server = new Server(CONNECTION_PORT, CONNECTIONS_MAX);            
             server.accept();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

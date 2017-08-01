@@ -16,19 +16,20 @@ import java.net.Socket;
 public class Server {
     private ServerSocket serverSocket;
     private ConnectionHandlerPool handlerPool;
-    private int backlog;
+    private int backlog;  
 
-    public Server(int port, int backlog) throws IOException {
+    public Server(int port, int backlog) throws IOException {            
             this.backlog = backlog;
             serverSocket = new ServerSocket(port, backlog);
     }
 
     public void accept() throws IOException {
             handlerPool = new ConnectionHandlerPool(backlog);
+            System.out.println("Server started");
             while (true) {
                     Socket socket = serverSocket.accept();
-//                    handlerPool.addConnection(socket);
-                    new Thread(new ConnectionThread(socket)).start();
+                    handlerPool.addConnection(socket);
+//                    new Thread(new ConnectionThread(socket)).start();
             }
     }
 }
